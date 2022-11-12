@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+data:
+  config.yaml: |
+    prometheusK8s:
+      retention: 30d
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp2-csi
+          resources:
+            requests:
+              storage: 100Gi
+      nodeSelector:
+        node-role.kubernetes.io/worker: ''
+    alertmanagerMain:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp2-csi
+          resources:
+            requests:
+              storage: 10Gi
+      nodeSelector:
+        node-role.kubernetes.io/worker: ''
+    kubeStateMetrics:
+      nodeSelector:
+        node-role.kubernetes.io/worker: ''
+    grafana:
+      nodeSelector:
+        node-role.kubernetes.io/worker: ''
+    telemeterClient:
+      nodeSelector:
+        node-role.kubernetes.io/worker: ''
+    k8sPrometheusAdapter:
+      nodeSelector:
+        node-role.kubernetes.io/worker: ''
+    openshiftStateMetrics:
+      nodeSelector:
+        node-role.kubernetes.io/worker: ''
+    thanosQuerier:
+      nodeSelector:
+        node-role.kubernetes.io/worker: ''
+
